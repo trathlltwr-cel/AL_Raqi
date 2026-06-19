@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-<title>تُراث | للعطور والعطارة ومستحضرات التجميل</title>
+<title>الراقي | للعطور والعطارة ومستحضرات التجميل</title>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300&family=Cairo:wght@300;400;600;700&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
@@ -388,6 +388,7 @@ footer{background:var(--dark);border-top:1px solid var(--border);padding:4rem 3r
   section{padding:3rem 1.5rem}
 }
 </style>
+<base target="_blank">
 </head>
 <body>
 
@@ -582,7 +583,7 @@ footer{background:var(--dark);border-top:1px solid var(--border);padding:4rem 3r
     <div class="finder-step-indicator" id="finderIndicator">الخطوة ١ من ٣</div>
     <div class="finder-steps" id="finderSteps"></div>
     <div class="finder-result" id="finderResult">
-      <p class="section-eyebrow">${t('finderResultTitle')}</p>
+      <p class='section-eyebrow'>${t('finderResultTitle')}</p>
       <h3 class="section-title" style="font-size:1.5rem" id="finderName"></h3>
       <p class="section-sub" id="finderDesc" style="margin-top:.5rem"></p>
       <div class="finder-nav">
@@ -620,10 +621,10 @@ footer{background:var(--dark);border-top:1px solid var(--border);padding:4rem 3r
       <h3 class="modal-name" id="modalName"></h3>
       <div class="modal-price" id="modalPrice"></div>
       <p class="modal-desc" id="modalDesc"></p>
-      <p class="modal-notes-title">مكوّنات العطر</p>
+      <p class="modal-notes-title">${t('modalNotes')}</p>
       <div class="product-notes" id="modalNotes"></div>
       <div style="margin-top:1.2rem">
-        <p class="modal-notes-title" id="modalSizeLabel">الحجم</p>
+        <p class="modal-notes-title" id="modalSizeLabel">${t('modalSize')}</p>
         <div class="modal-sizes" id="modalSizes"></div>
       </div>
       <button class="btn-add" id="modalAddBtn" style="margin-top:1.5rem">${t('modalAdd')}</button>
@@ -699,12 +700,12 @@ footer{background:var(--dark);border-top:1px solid var(--border);padding:4rem 3r
     <div id="order-confirmed">
       <span class="confirmed-icon">✦</span>
       <div class="confirmed-title">${t('confirmedTitle')}</div>
-      <p class="confirmed-sub">سيتواصل معك فريق تُراث قريباً لتأكيد الطلب وترتيب التوصيل.</p>
+      <p class="confirmed-sub">${t('confirmedSub')}</p>
       <div class="confirmed-id" id="confirmed-order-id"></div>
       <button class="btn-share-order" onclick="shareOrder()">
-        <span>📤</span><span>${t('btnShare')}</span>
+        <span>📤</span><span>مشاركة تفاصيل طلبي</span>
       </button>
-      <button class="btn-outline" style="width:100%;margin-top:.8rem;padding:.8rem;font-size:.85rem" onclick="closeCheckout()">${t('btnBack')}</button>
+      <button class="btn-outline" style="width:100%;margin-top:.8rem;padding:.8rem;font-size:.85rem" onclick="closeCheckout()">العودة للمتجر</button>
     </div>
   </div>
 </div>
@@ -815,7 +816,7 @@ function renderProducts() {
   const grid = document.getElementById('productGrid');
   const filtered = activeCategory==='all' ? products : products.filter(p=>p.cat===activeCategory);
   if (!filtered.length) {
-    grid.innerHTML = `<div style="grid-column:1/-1;text-align:center;padding:4rem;color:var(--text2)">'+t('noProducts')+'</div>`;
+    grid.innerHTML = `<div style="grid-column:1/-1;text-align:center;padding:4rem;color:var(--text2)">${t('noProducts')}</div>`;
     return;
   }
   const badgeLabels = {bestseller:t('badgeBestseller'),new:t('badgeNew'),limited:t('badgeLimited')};
@@ -940,7 +941,7 @@ function renderCart() {
   const container = document.getElementById('cartItems');
   const footer    = document.getElementById('cartFooter');
   if(!cart.length){
-    container.innerHTML = `<div class="cart-empty"><span>✦</span><p>'+t('cartEmpty')+'</p></div>`;
+    container.innerHTML = `<div class="cart-empty"><span>✦</span><p>${t('cartEmpty')}</p></div>`;
     footer.style.display='none'; return;
   }
   footer.style.display='block';
@@ -1021,7 +1022,7 @@ function getMyLocation() {
     },
     err => {
       document.getElementById('location-btn-text').textContent = 'مشاركة موقعي الحالي (GPS)';
-      const msgs={1:'يُرجى السماح بالوصول للموقع الجغرافي',2:'تعذّر تحديد الموقع',3:'انتهت مهلة التحديد'};
+      const msgs={1:t('toastAddressRequired'),2:'تعذّر تحديد الموقع',3:'انتهت مهلة التحديد'};
       setLocationStatus(msgs[err.code]||'خطأ غير معروف','err');
     },
     {enableHighAccuracy:true,timeout:10000}
@@ -1109,7 +1110,7 @@ ${itemsLines}
 ━━━━━━━━━━━━━━━━━━━━
 ${deliveryLine}
 ━━━━━━━━━━━━━━━━━━━━
-🕐 *${t('date')}:* ${o.date.toLocaleDateString(currentLang==='en'?'en-US':'ar-SA')}
+🕐 *التاريخ:* ${o.date.toLocaleDateString(currentLang==='en'?'en-US':'ar-SA')}
 ${o.notes?'📝 *'+t('notes')+':* '+o.notes:''}`;
   if(navigator.share){ navigator.share({title:`طلب جديد — ${o.name}`,text:message}).catch(()=>{}); }
   else { navigator.clipboard.writeText(message).then(()=>showToastMsg(t('toastCopied'))); }
@@ -1165,391 +1166,274 @@ function resetFinder(){ finderStep=0; finderChoices=[]; renderFinder(); }
 // ══ Translations ══
 const translations = {
   ar: {
-    navCollection: 'المجموعة', navOffers: 'العروض', navStory: 'قصتنا', navFinder: 'اكتشف عطرك',
-    heroEyebrow: '✦ الراقي للعطور والعطارة ومستحضرات التجميل ✦',
-    heroTitle1: 'أناقة العطر', heroTitle2: 'الراقي',
-    heroSub: 'عطور وعطارة ومستحضرات تجميل تُصنع بمكوّنات نادرة من أرجاء العالم بأصالة الراقي',
-    heroCta1: 'اكتشف المجموعة', heroCta2: 'اعثر على عطرك',
-    scrollText: 'تمرير',
-    sectionCollection: 'مجموعتنا الحصرية', sectionCollectionTitle1: 'روائح', sectionCollectionTitle2: 'الراقي',
-    catAll: 'الكل', catWomen: 'نسائي', catMen: 'رجالي', catUnisex: 'للجنسين',
-    noProducts: ''+t('noProducts')+'',
-    addToCart: t('finderAddBtn'),
-    sectionOffers: 'عروض حصرية', sectionOffersTitle1: 'مميزات', sectionOffersTitle2: 'تستحقها',
-    offer1Title: 'ضمان العودة', offer1Desc: 'إذا لم يعجبك المنتج خلال ٣٠ يوماً، نستبدله لك بالكامل دون أي أسئلة.', offer1Tag: '٣٠ يوم',
-    offer2Title: 'تغليف فاخر', offer2Desc: 'كل طلب يُغلَّف يدوياً بصندوق هدايا فاخر مع رسالة مخصصة مجاناً.', offer2Tag: 'مجاني دائماً',
-    offer3Title: 'شحن سريع', offer3Desc: 'توصيل خلال ٢٤ ساعة داخل المدينة وثلاثة أيام لبقية المناطق.', offer3Tag: '٢٤ ساعة',
-    countdownTitle: '✦ عرض خاص ينتهي خلال ✦',
-    day: 'يوم', hour: 'ساعة', minute: 'دقيقة', second: 'ثانية',
-    sectionStory: 'قصتنا', sectionStoryTitle1: 'فلسفة', sectionStoryTitle2: 'الراقي',
-    storyText1: 'منذ عام ٢٠١٠، نرسم بالروائح لوحات عاطفية لا تمحى. نستخرج من أعماق الطبيعة أنقى المكوّنات لنصنع منها عطوراً وعطارة ومستحضرات تجميل.',
-    storyText2: 'كل زجاجة هي قصيدة، وكل رائحة هي رحلة إلى عوالم لا تراها العين لكن تحسها الروح.',
-    stat1Num: '15+', stat1Label: 'سنة خبرة',
-    stat2Num: '120', stat2Label: 'منتج حصري',
-    stat3Num: '50+', stat3Label: 'دولة',
-    sectionFinder: 'اكتشف عطرك', sectionFinderTitle1: 'أي رائحة', sectionFinderTitle2: 'تُلائمك؟',
-    finderSub: 'أجب على أسئلة بسيطة وسنوصي لك بعطرك المثالي',
-    finderStep: 'الخطوة', finderOf: 'من',
-    finderResultTitle: 'عطرك المقترح',
-    finderAddBtn: t('finderAddBtn'), finderResetBtn: t('finderResetBtn'),
-    cartTitle: 'سلة التسوق', cartEmpty: 'السلة فارغة',
-    cartSubtotal: 'المجموع الفرعي', cartShipping: 'الشحن', cartTotal: 'المجموع',
-    cartCheckout: 'إتمام الشراء ←',
-    checkoutTitle: '🛍 إتمام الطلب',
-    coName: 'الاسم الكامل', coPhone: 'رقم الهاتف', coCity: 'المدينة',
-    coDelivery: 'طريقة الاستلام', coPickup: 'استلام من المتجر', coDeliveryOpt: 'توصيل لموقعي',
-    deliveryAlertTitle: 'ملاحظة بشأن رسوم التوصيل',
-    deliveryAlertText: 'سعر المنتج لا يشمل تكاليف الشحن والتوصيل. سيتواصل معك مندوب التوصيل لتحديد الرسوم وترتيب الاستلام بحسب موقعك.',
-    locationTitle: 'موقعك للتوصيل', coAddress: 'العنوان بالتفصيل',
-    locationBtn: 'مشاركة موقعي الحالي (GPS)', locationMap: 'عرض موقعي على الخريطة',
-    coNotes: 'ملاحظات إضافية (اختياري)',
-    btnConfirm: 'تأكيد الطلب ←',
-    confirmedTitle: 'تم استلام طلبك!',
-    confirmedSub: 'سيتواصل معك فريق الراقي قريباً لتأكيد الطلب وترتيب التوصيل.',
-    orderIdPrefix: 'رقم طلبك:',
-    btnShare: 'مشاركة تفاصيل طلبي', btnBack: 'العودة للمتجر',
-    toastAdded: '✓ تمت الإضافة إلى السلة',
-    toastFillRequired: 'يُرجى تعبئة الاسم والهاتف والمدينة',
-    toastAddressRequired: 'يُرجى إدخال العنوان أو مشاركة موقعك',
-    toastError: 'حدث خطأ أثناء الإرسال، حاول مرة أخرى',
-    toastCopied: '✓ تم نسخ تفاصيل الطلب',
-    footerBrand: 'الراقي', footerBrandSub: 'للعطور والعطارة ومستحضرات التجميل',
-    footerDesc: 'عطور وعطارة ومستحضرات تجميل فاخرة مصنوعة بشغف وفن.',
-    footerSections: 'الأقسام', footerServices: 'خدماتنا', footerHelp: 'المساعدة',
-    footerWomen: 'نسائي', footerMen: 'رجالي', footerUnisex: 'للجنسين',
-    footerCustom: 'تخصيص العطر', footerCorporate: 'هدايا مؤسسية', footerBridal: 'عروض العرائس',
-    footerTrack: 'تتبع الطلب', footerReturn: 'سياسة الإرجاع', footerContact: 'تواصل معنا',
-    footerCopy: '© ٢٠٢٥ الراقي. جميع الحقوق محفوظة',
-    footerMade: 'صُنع بشغف في السودان',
-    modalSize: 'الحجم', modalNotes: 'مكوّنات العطر', modalAdd: 'أضف إلى السلة',
-    shareOrderTitle: '${t('shareOrderTitle')}',
-    finderQ1: 'ما وقت استخدام العطر؟', finderQ1Opts: ['صباحاً','مساءً','كل الأوقات'],
-    finderQ2: 'ما طابعك الشخصي؟', finderQ2Opts: ['رومانسي','قوي وجريء','عصري','كلاسيكي'],
-    finderQ3: 'ما الرائحة المفضلة؟', finderQ3Opts: ['زهري','خشبي','شرقي','مائي'],
-    finderR0: 'ورد باريس', finderR0Desc: 'رائحة زهرية صباحية راقية',
-    finderR1: 'أسود الليل', finderR1Desc: 'عطر شجاع لشخصية قوية',
-    finderR2: 'عود الملوك', finderR2Desc: 'كلاسيكي فاخر شرقي',
-    finderR3: 'الليل الأزرق', finderR3Desc: 'نضارة مائية خشبية',
-    badgeBestseller: 'الأكثر مبيعاً', badgeNew: 'جديد', badgeLimited: 'محدود',
-    catLabelMen: 'رجالي', catLabelWomen: 'نسائي', catLabelUnisex: 'للجنسين',
-    notifyBar: 'شحن مجاني لكل طلب يتجاوز <span>100,000 ج.س</span> — عرض محدود',
-    quoteText: '"العطر هو الفن الذي يجعل الذاكرة تتكلم"',
-    quoteCite: '— الراقي',
-    remove: 'إزالة', free: 'مجاني', orderSummary: 'ملخص الطلب',
-    total: 'الإجمالي', customer: 'العميل', phone: 'الهاتف',
-    products: 'المنتجات', date: 'التاريخ', notes: 'ملاحظات',
-    orderNum: 'رقم الطلب',
+    navCollection:'المجموعة',navOffers:'العروض',navStory:'قصتنا',navFinder:'اكتشف عطرك',
+    heroEyebrow:'✦ الراقي للعطور والعطارة ومستحضرات التجميل ✦',
+    heroTitle1:'أناقة العطر',heroTitle2:'الراقي',
+    heroSub:'عطور وعطارة ومستحضرات تجميل تُصنع بمكوّنات نادرة من أرجاء العالم بأصالة الراقي',
+    heroCta1:'اكتشف المجموعة',heroCta2:'اعثر على عطرك',scrollText:'تمرير',
+    sectionCollection:'مجموعتنا الحصرية',sectionCollectionTitle1:'روائح',sectionCollectionTitle2:'الراقي',
+    catAll:'الكل',catWomen:'نسائي',catMen:'رجالي',catUnisex:'للجنسين',
+    noProducts:'لا توجد منتجات في هذا القسم',addToCart:t('finderAddBtn'),
+    sectionOffers:'عروض حصرية',sectionOffersTitle1:'مميزات',sectionOffersTitle2:'تستحقها',
+    offer1Title:'ضمان العودة',offer1Desc:'إذا لم يعجبك المنتج خلال ٣٠ يوماً، نستبدله لك بالكامل دون أي أسئلة.',offer1Tag:'٣٠ يوم',
+    offer2Title:'تغليف فاخر',offer2Desc:'كل طلب يُغلَّف يدوياً بصندوق هدايا فاخر مع رسالة مخصصة مجاناً.',offer2Tag:'مجاني دائماً',
+    offer3Title:'شحن سريع',offer3Desc:'توصيل خلال ٢٤ ساعة داخل المدينة وثلاثة أيام لبقية المناطق.',offer3Tag:'٢٤ ساعة',
+    countdownTitle:'✦ عرض خاص ينتهي خلال ✦',day:'يوم',hour:'ساعة',minute:'دقيقة',second:'ثانية',
+    sectionStory:'قصتنا',sectionStoryTitle1:'فلسفة',sectionStoryTitle2:'الراقي',
+    storyText1:'منذ عام ٢٠١٠، نرسم بالروائح لوحات عاطفية لا تمحى. نستخرج من أعماق الطبيعة أنقى المكوّنات لنصنع منها عطوراً وعطارة ومستحضرات تجميل.',
+    storyText2:'كل زجاجة هي قصيدة، وكل رائحة هي رحلة إلى عوالم لا تراها العين لكن تحسها الروح.',
+    stat1Num:'15+',stat1Label:'سنة خبرة',stat2Num:'120',stat2Label:'منتج حصري',stat3Num:'50+',stat3Label:'دولة',
+    sectionFinder:'اكتشف عطرك',sectionFinderTitle1:'أي رائحة',sectionFinderTitle2:'تُلائمك؟',
+    finderSub:'أجب على أسئلة بسيطة وسنوصي لك بعطرك المثالي',finderStep:'الخطوة',finderOf:'من',
+    finderResultTitle:'عطرك المقترح',finderAddBtn:t('finderAddBtn'),finderResetBtn:t('finderResetBtn'),
+    cartTitle:'سلة التسوق',cartEmpty:'السلة فارغة',cartSubtotal:'المجموع الفرعي',cartShipping:'الشحن',cartTotal:'المجموع',
+    cartCheckout:'إتمام الشراء ←',checkoutTitle:'🛍 إتمام الطلب',
+    coName:'الاسم الكامل',coPhone:'رقم الهاتف',coCity:'المدينة',
+    coDelivery:'طريقة الاستلام',coPickup:'استلام من المتجر',coDeliveryOpt:'توصيل لموقعي',
+    deliveryAlertTitle:'ملاحظة بشأن رسوم التوصيل',
+    deliveryAlertText:'سعر المنتج لا يشمل تكاليف الشحن والتوصيل. سيتواصل معك مندوب التوصيل لتحديد الرسوم وترتيب الاستلام بحسب موقعك.',
+    locationTitle:'موقعك للتوصيل',coAddress:'العنوان بالتفصيل',
+    locationBtn:'مشاركة موقعي الحالي (GPS)',locationMap:'عرض موقعي على الخريطة',
+    coNotes:'ملاحظات إضافية (اختياري)',btnConfirm:'تأكيد الطلب ←',
+    confirmedTitle:'تم استلام طلبك!',confirmedSub:'سيتواصل معك فريق الراقي قريباً لتأكيد الطلب وترتيب التوصيل.',
+    orderIdPrefix:'رقم طلبك:',btnShare:'مشاركة تفاصيل طلبي',btnBack:'العودة للمتجر',
+    toastAdded:'✓ تمت الإضافة إلى السلة',toastFillRequired:'يُرجى تعبئة الاسم والهاتف والمدينة',
+    toastAddressRequired:'يُرجى إدخال العنوان أو مشاركة موقعك',toastError:'حدث خطأ أثناء الإرسال، حاول مرة أخرى',
+    toastCopied:'✓ تم نسخ تفاصيل الطلب',
+    footerBrand:'الراقي',footerBrandSub:'للعطور والعطارة ومستحضرات التجميل',
+    footerDesc:'عطور وعطارة ومستحضرات تجميل فاخرة مصنوعة بشغف وفن.',
+    footerSections:'الأقسام',footerServices:'خدماتنا',footerHelp:'المساعدة',
+    footerWomen:'نسائي',footerMen:'رجالي',footerUnisex:'للجنسين',
+    footerCustom:'تخصيص العطر',footerCorporate:'هدايا مؤسسية',footerBridal:'عروض العرائس',
+    footerTrack:'تتبع الطلب',footerReturn:'سياسة الإرجاع',footerContact:'تواصل معنا',
+    footerCopy:'© ٢٠٢٥ الراقي. جميع الحقوق محفوظة',footerMade:'صُنع بشغف في السودان',
+    modalSize:'الحجم',modalNotes:'مكوّنات العطر',modalAdd:'أضف إلى السلة',
+    shareOrderTitle:'🛍 *طلب جديد — الراقي للعطور*',
+    finderQ1:'ما وقت استخدام العطر؟',finderQ1Opts:['صباحاً','مساءً','كل الأوقات'],
+    finderQ2:'ما طابعك الشخصي؟',finderQ2Opts:['رومانسي','قوي وجريء','عصري','كلاسيكي'],
+    finderQ3:'ما الرائحة المفضلة؟',finderQ3Opts:['زهري','خشبي','شرقي','مائي'],
+    finderR0:'ورد باريس',finderR0Desc:'رائحة زهرية صباحية راقية',
+    finderR1:'أسود الليل',finderR1Desc:'عطر شجاع لشخصية قوية',
+    finderR2:'عود الملوك',finderR2Desc:'كلاسيكي فاخر شرقي',
+    finderR3:'الليل الأزرق',finderR3Desc:'نضارة مائية خشبية',
+    badgeBestseller:'الأكثر مبيعاً',badgeNew:'جديد',badgeLimited:'محدود',
+    catLabelMen:'رجالي',catLabelWomen:'نسائي',catLabelUnisex:'للجنسين',
+    notifyBar:'شحن مجاني لكل طلب يتجاوز <span>100,000 ج.س</span> — عرض محدود',
+    quoteText:'"العطر هو الفن الذي يجعل الذاكرة تتكلم"',quoteCite:'— الراقي',
+    remove:'إزالة',free:'مجاني',orderSummary:'ملخص الطلب',total:'الإجمالي',
+    customer:'العميل',phone:'الهاتف',products:'المنتجات',date:'التاريخ',notes:'ملاحظات',orderNum:'رقم الطلب',
   },
   en: {
-    navCollection: 'Collection', navOffers: 'Offers', navStory: 'Our Story', navFinder: 'Find Your Scent',
-    heroEyebrow: '✦ Al-Raaqi Perfumes, Incense & Cosmetics ✦',
-    heroTitle1: 'The Elegance of', heroTitle2: 'Fragrance',
-    heroSub: 'Perfumes, incense & cosmetics crafted with rare ingredients from around the world, with the authenticity of Al-Raaqi',
-    heroCta1: 'Explore Collection', heroCta2: 'Find Your Scent',
-    scrollText: 'Scroll',
-    sectionCollection: 'Our Exclusive Collection', sectionCollectionTitle1: 'Scents of', sectionCollectionTitle2: 'Al-Raaqi',
-    catAll: 'All', catWomen: 'Women', catMen: 'Men', catUnisex: 'Unisex',
-    noProducts: 'No products in this category',
-    addToCart: 'Add to Cart',
-    sectionOffers: 'Exclusive Offers', sectionOffersTitle1: 'Features', sectionOffersTitle2: 'You Deserve',
-    offer1Title: 'Return Guarantee', offer1Desc: 'If you are not satisfied within 30 days, we will replace it for you with no questions asked.', offer1Tag: '30 Days',
-    offer2Title: 'Luxury Packaging', offer2Desc: 'Every order is hand-wrapped in a luxury gift box with a free personalized message.', offer2Tag: 'Always Free',
-    offer3Title: 'Fast Shipping', offer3Desc: 'Delivery within 24 hours inside the city and three days for other areas.', offer3Tag: '24 Hours',
-    countdownTitle: '✦ Special Offer Ends In ✦',
-    day: 'Days', hour: 'Hours', minute: 'Minutes', second: 'Seconds',
-    sectionStory: 'Our Story', sectionStoryTitle1: 'The Philosophy of', sectionStoryTitle2: 'Al-Raaqi',
-    storyText1: 'Since 2010, we have been painting emotional canvases with scents. We extract the purest ingredients from the depths of nature to create perfumes, incense, and cosmetics.',
-    storyText2: 'Every bottle is a poem, and every scent is a journey to worlds unseen by the eye but felt by the soul.',
-    stat1Num: '15+', stat1Label: 'Years of Experience',
-    stat2Num: '120', stat2Label: 'Exclusive Products',
-    stat3Num: '50+', stat3Label: 'Countries',
-    sectionFinder: 'Discover Your Scent', sectionFinderTitle1: 'Which Scent', sectionFinderTitle2: 'Suits You?',
-    finderSub: 'Answer a few simple questions and we will recommend your perfect fragrance',
-    finderStep: 'Step', finderOf: 'of',
-    finderResultTitle: 'Your Recommended Scent',
-    finderAddBtn: 'Add to Cart', finderResetBtn: 'Start Over',
-    cartTitle: 'Shopping Cart', cartEmpty: 'Your cart is empty',
-    cartSubtotal: 'Subtotal', cartShipping: 'Shipping', cartTotal: 'Total',
-    cartCheckout: 'Checkout →',
-    checkoutTitle: '🛍 Complete Your Order',
-    coName: 'Full Name', coPhone: 'Phone Number', coCity: 'City',
-    coDelivery: 'Delivery Method', coPickup: 'Store Pickup', coDeliveryOpt: 'Deliver to My Location',
-    deliveryAlertTitle: 'Note on Delivery Fees',
-    deliveryAlertText: 'Product price does not include shipping and delivery costs. A delivery representative will contact you to determine fees and arrange pickup based on your location.',
-    locationTitle: 'Your Delivery Location', coAddress: 'Detailed Address',
-    locationBtn: 'Share My Current Location (GPS)', locationMap: 'View My Location on Map',
-    coNotes: 'Additional Notes (Optional)',
-    btnConfirm: 'Confirm Order →',
-    confirmedTitle: 'Your Order Has Been Received!',
-    confirmedSub: 'The Al-Raaqi team will contact you soon to confirm the order and arrange delivery.',
-    orderIdPrefix: 'Order Number:',
-    btnShare: 'Share Order Details', btnBack: 'Back to Store',
-    toastAdded: '✓ Added to cart',
-    toastFillRequired: 'Please fill in name, phone, and city',
-    toastAddressRequired: 'Please enter address or share your location',
-    toastError: 'An error occurred while sending, please try again',
-    toastCopied: '✓ Order details copied',
-    footerBrand: 'Al-Raaqi', footerBrandSub: 'Perfumes, Incense & Cosmetics',
-    footerDesc: 'Luxury perfumes, incense & cosmetics crafted with passion and artistry.',
-    footerSections: 'Categories', footerServices: 'Our Services', footerHelp: 'Help',
-    footerWomen: 'Women', footerMen: 'Men', footerUnisex: 'Unisex',
-    footerCustom: 'Custom Fragrance', footerCorporate: 'Corporate Gifts', footerBridal: 'Bridal Offers',
-    footerTrack: 'Track Order', footerReturn: 'Return Policy', footerContact: 'Contact Us',
-    footerCopy: '© 2025 Al-Raaqi. All Rights Reserved',
-    footerMade: 'Made with passion in Sudan',
-    modalSize: 'Size', modalNotes: 'Fragrance Notes', modalAdd: 'Add to Cart',
-    shareOrderTitle: '🛍 *New Order — Al-Raaqi Perfumes*',
-    finderQ1: 'When do you wear perfume?', finderQ1Opts: ['Morning','Evening','Anytime'],
-    finderQ2: 'What is your personality?', finderQ2Opts: ['Romantic','Bold & Strong','Modern','Classic'],
-    finderQ3: 'What is your preferred scent?', finderQ3Opts: ['Floral','Woody','Oriental','Aquatic'],
-    finderR0: 'Rose of Paris', finderR0Desc: 'An elegant morning floral scent',
-    finderR1: 'Black Night', finderR1Desc: 'A bold fragrance for a strong personality',
-    finderR2: 'Oud of Kings', finderR2Desc: 'A classic luxurious oriental',
-    finderR3: 'Blue Night', finderR3Desc: 'A fresh aquatic woody scent',
-    badgeBestseller: 'Bestseller', badgeNew: 'New', badgeLimited: 'Limited',
-    catLabelMen: 'Men', catLabelWomen: 'Women', catLabelUnisex: 'Unisex',
-    notifyBar: 'Free shipping on orders over <span>100,000 SDG</span> — Limited Offer',
-    quoteText: '"Perfume is the art that makes memory speak"',
-    quoteCite: '— Al-Raaqi',
-    remove: 'Remove', free: 'Free', orderSummary: 'Order Summary',
-    total: 'Total', customer: 'Customer', phone: 'Phone',
-    products: 'Products', date: 'Date', notes: 'Notes',
-    orderNum: 'Order #',
+    navCollection:'Collection',navOffers:'Offers',navStory:'Our Story',navFinder:'Find Your Scent',
+    heroEyebrow:'✦ Al-Raaqi Perfumes, Incense & Cosmetics ✦',
+    heroTitle1:'The Elegance of',heroTitle2:'Fragrance',
+    heroSub:'Perfumes, incense & cosmetics crafted with rare ingredients from around the world, with the authenticity of Al-Raaqi',
+    heroCta1:'Explore Collection',heroCta2:'Find Your Scent',scrollText:'Scroll',
+    sectionCollection:'Our Exclusive Collection',sectionCollectionTitle1:'Scents of',sectionCollectionTitle2:'Al-Raaqi',
+    catAll:'All',catWomen:'Women',catMen:'Men',catUnisex:'Unisex',
+    noProducts:'No products in this category',addToCart:'Add to Cart',
+    sectionOffers:'Exclusive Offers',sectionOffersTitle1:'Features',sectionOffersTitle2:'You Deserve',
+    offer1Title:'Return Guarantee',offer1Desc:'If you are not satisfied within 30 days, we will replace it for you with no questions asked.',offer1Tag:'30 Days',
+    offer2Title:'Luxury Packaging',offer2Desc:'Every order is hand-wrapped in a luxury gift box with a free personalized message.',offer2Tag:'Always Free',
+    offer3Title:'Fast Shipping',offer3Desc:'Delivery within 24 hours inside the city and three days for other areas.',offer3Tag:'24 Hours',
+    countdownTitle:'✦ Special Offer Ends In ✦',day:'Days',hour:'Hours',minute:'Minutes',second:'Seconds',
+    sectionStory:'Our Story',sectionStoryTitle1:'The Philosophy of',sectionStoryTitle2:'Al-Raaqi',
+    storyText1:'Since 2010, we have been painting emotional canvases with scents. We extract the purest ingredients from the depths of nature to create perfumes, incense, and cosmetics.',
+    storyText2:'Every bottle is a poem, and every scent is a journey to worlds unseen by the eye but felt by the soul.',
+    stat1Num:'15+',stat1Label:'Years of Experience',stat2Num:'120',stat2Label:'Exclusive Products',stat3Num:'50+',stat3Label:'Countries',
+    sectionFinder:'Discover Your Scent',sectionFinderTitle1:'Which Scent',sectionFinderTitle2:'Suits You?',
+    finderSub:'Answer a few simple questions and we will recommend your perfect fragrance',finderStep:'Step',finderOf:'of',
+    finderResultTitle:'Your Recommended Scent',finderAddBtn:'Add to Cart',finderResetBtn:'Start Over',
+    cartTitle:'Shopping Cart',cartEmpty:'Your cart is empty',cartSubtotal:'Subtotal',cartShipping:'Shipping',cartTotal:'Total',
+    cartCheckout:'Checkout →',checkoutTitle:'🛍 Complete Your Order',
+    coName:'Full Name',coPhone:'Phone Number',coCity:'City',
+    coDelivery:'Delivery Method',coPickup:'Store Pickup',coDeliveryOpt:'Deliver to My Location',
+    deliveryAlertTitle:'Note on Delivery Fees',
+    deliveryAlertText:'Product price does not include shipping and delivery costs. A delivery representative will contact you to determine fees and arrange pickup based on your location.',
+    locationTitle:'Your Delivery Location',coAddress:'Detailed Address',
+    locationBtn:'Share My Current Location (GPS)',locationMap:'View My Location on Map',
+    coNotes:'Additional Notes (Optional)',btnConfirm:'Confirm Order →',
+    confirmedTitle:'Your Order Has Been Received!',confirmedSub:'The Al-Raaqi team will contact you soon to confirm the order and arrange delivery.',
+    orderIdPrefix:'Order Number:',btnShare:'Share Order Details',btnBack:'Back to Store',
+    toastAdded:'✓ Added to cart',toastFillRequired:'Please fill in name, phone, and city',
+    toastAddressRequired:'Please enter address or share your location',toastError:'An error occurred while sending, please try again',
+    toastCopied:'✓ Order details copied',
+    footerBrand:'Al-Raaqi',footerBrandSub:'Perfumes, Incense & Cosmetics',
+    footerDesc:'Luxury perfumes, incense & cosmetics crafted with passion and artistry.',
+    footerSections:'Categories',footerServices:'Our Services',footerHelp:'Help',
+    footerWomen:'Women',footerMen:'Men',footerUnisex:'Unisex',
+    footerCustom:'Custom Fragrance',footerCorporate:'Corporate Gifts',footerBridal:'Bridal Offers',
+    footerTrack:'Track Order',footerReturn:'Return Policy',footerContact:'Contact Us',
+    footerCopy:'© 2025 Al-Raaqi. All Rights Reserved',footerMade:'Made with passion in Sudan',
+    modalSize:'Size',modalNotes:'Fragrance Notes',modalAdd:'Add to Cart',
+    shareOrderTitle:'🛍 *New Order — Al-Raaqi Perfumes*',
+    finderQ1:'When do you wear perfume?',finderQ1Opts:['Morning','Evening','Anytime'],
+    finderQ2:'What is your personality?',finderQ2Opts:['Romantic','Bold & Strong','Modern','Classic'],
+    finderQ3:'What is your preferred scent?',finderQ3Opts:['Floral','Woody','Oriental','Aquatic'],
+    finderR0:'Rose of Paris',finderR0Desc:'An elegant morning floral scent',
+    finderR1:'Black Night',finderR1Desc:'A bold fragrance for a strong personality',
+    finderR2:'Oud of Kings',finderR2Desc:'A classic luxurious oriental',
+    finderR3:'Blue Night',finderR3Desc:'A fresh aquatic woody scent',
+    badgeBestseller:'Bestseller',badgeNew:'New',badgeLimited:'Limited',
+    catLabelMen:'Men',catLabelWomen:'Women',catLabelUnisex:'Unisex',
+    notifyBar:'Free shipping on orders over <span>100,000 SDG</span> — Limited Offer',
+    quoteText:'"Perfume is the art that makes memory speak"',quoteCite:'— Al-Raaqi',
+    remove:'Remove',free:'Free',orderSummary:'Order Summary',total:'Total',
+    customer:'Customer',phone:'Phone',products:'Products',date:'Date',notes:'Notes',orderNum:'Order #',
   }
 };
 
-function t(key) { return (translations[currentLang] && translations[currentLang][key]) || key; }
+function t(key){return(translations[currentLang]&&translations[currentLang][key])||key;}
 
 // ══ Language ══
-function setLang(lang) {
+function setLang(lang){
   currentLang=lang;
   document.getElementById('btnAr').classList.toggle('active',lang==='ar');
   document.getElementById('btnEn').classList.toggle('active',lang==='en');
-  document.documentElement.lang = lang;
-  document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
+  document.documentElement.lang=lang;
+  document.documentElement.dir=lang==='ar'?'rtl':'ltr';
   updateAllText();
-  renderProductsSmooth(); renderCart();
+  renderProductsSmooth();renderCart();
 }
 
-function updateAllText() {
-  // Nav
-  const navLinks = document.querySelectorAll('.nav-links a');
-  if(navLinks[0]) navLinks[0].textContent = t('navCollection');
-  if(navLinks[1]) navLinks[1].textContent = t('navOffers');
-  if(navLinks[2]) navLinks[2].textContent = t('navStory');
-  if(navLinks[3]) navLinks[3].textContent = t('navFinder');
+function updateAllText(){
+  const navLinks=document.querySelectorAll('.nav-links a');
+  if(navLinks[0])navLinks[0].textContent=t('navCollection');
+  if(navLinks[1])navLinks[1].textContent=t('navOffers');
+  if(navLinks[2])navLinks[2].textContent=t('navStory');
+  if(navLinks[3])navLinks[3].textContent=t('navFinder');
 
-  // Mobile menu
-  const mobileLinks = document.querySelectorAll('.mobile-menu a');
-  if(mobileLinks[0]) mobileLinks[0].textContent = t('navCollection');
-  if(mobileLinks[1]) mobileLinks[1].textContent = t('navOffers');
-  if(mobileLinks[2]) mobileLinks[2].textContent = t('navStory');
-  if(mobileLinks[3]) mobileLinks[3].textContent = t('navFinder');
+  const mobileLinks=document.querySelectorAll('.mobile-menu a');
+  if(mobileLinks[0])mobileLinks[0].textContent=t('navCollection');
+  if(mobileLinks[1])mobileLinks[1].textContent=t('navOffers');
+  if(mobileLinks[2])mobileLinks[2].textContent=t('navStory');
+  if(mobileLinks[3])mobileLinks[3].textContent=t('navFinder');
 
-  // Hero
-  document.querySelector('.hero-eyebrow').textContent = t('heroEyebrow');
-  const heroTitle = document.querySelector('.hero-title');
-  if(currentLang === 'en') {
-    heroTitle.innerHTML = t('heroTitle1') + '<br><em>' + t('heroTitle2') + '</em>';
-  } else {
-    heroTitle.innerHTML = 'أناقة العطر<br><em>الراقي</em>';
-  }
-  document.querySelector('.hero-sub').textContent = t('heroSub');
-  const heroCtas = document.querySelectorAll('.hero-cta button');
-  if(heroCtas[0]) heroCtas[0].textContent = t('heroCta1');
-  if(heroCtas[1]) heroCtas[1].textContent = t('heroCta2');
-  document.querySelector('.hero-scroll span').textContent = t('scrollText');
+  document.querySelector('.hero-eyebrow').textContent=t('heroEyebrow');
+  const heroTitle=document.querySelector('.hero-title');
+  if(currentLang==='en'){heroTitle.innerHTML=t('heroTitle1')+'<br><em>'+t('heroTitle2')+'</em>';}
+  else{heroTitle.innerHTML='أناقة العطر<br><em>الراقي</em>';}
+  document.querySelector('.hero-sub').textContent=t('heroSub');
+  const heroCtas=document.querySelectorAll('.hero-cta button');
+  if(heroCtas[0])heroCtas[0].textContent=t('heroCta1');
+  if(heroCtas[1])heroCtas[1].textContent=t('heroCta2');
+  document.querySelector('.hero-scroll span').textContent=t('scrollText');
 
-  // Collection section
-  const collEyebrow = document.querySelector('#collection .section-eyebrow');
-  if(collEyebrow) collEyebrow.textContent = t('sectionCollection');
-  const collTitle = document.querySelector('#collection .section-title');
-  if(collTitle) {
-    if(currentLang === 'en') collTitle.innerHTML = t('sectionCollectionTitle1') + ' <em>' + t('sectionCollectionTitle2') + '</em>';
-    else collTitle.innerHTML = 'روائح <em>الراقي</em>';
-  }
+  const collEyebrow=document.querySelector('#collection .section-eyebrow');
+  if(collEyebrow)collEyebrow.textContent=t('sectionCollection');
+  const collTitle=document.querySelector('#collection .section-title');
+  if(collTitle){if(currentLang==='en')collTitle.innerHTML=t('sectionCollectionTitle1')+' <em>'+t('sectionCollectionTitle2')+'</em>';else collTitle.innerHTML='روائح <em>الراقي</em>';}
 
-  // Category tabs
-  const catTabs = document.querySelectorAll('.cat-tab');
-  catTabs.forEach(tab => {
-    const cat = tab.dataset.cat;
-    if(cat === 'all') tab.textContent = t('catAll');
-    if(cat === 'women') tab.textContent = t('catWomen');
-    if(cat === 'men') tab.textContent = t('catMen');
-    if(cat === 'unisex') tab.textContent = t('catUnisex');
-  });
+  const catTabs=document.querySelectorAll('.cat-tab');
+  catTabs.forEach(tab=>{const cat=tab.dataset.cat;if(cat==='all')tab.textContent=t('catAll');if(cat==='women')tab.textContent=t('catWomen');if(cat==='men')tab.textContent=t('catMen');if(cat==='unisex')tab.textContent=t('catUnisex');});
 
-  // Offers section
-  const offEyebrow = document.querySelector('#offers .section-eyebrow');
-  if(offEyebrow) offEyebrow.textContent = t('sectionOffers');
-  const offTitle = document.querySelector('#offers .section-title');
-  if(offTitle) {
-    if(currentLang === 'en') offTitle.innerHTML = t('sectionOffersTitle1') + ' <em>' + t('sectionOffersTitle2') + '</em>';
-    else offTitle.innerHTML = 'مميزات <em>تستحقها</em>';
-  }
+  const offEyebrow=document.querySelector('#offers .section-eyebrow');
+  if(offEyebrow)offEyebrow.textContent=t('sectionOffers');
+  const offTitle=document.querySelector('#offers .section-title');
+  if(offTitle){if(currentLang==='en')offTitle.innerHTML=t('sectionOffersTitle1')+' <em>'+t('sectionOffersTitle2')+'</em>';else offTitle.innerHTML='مميزات <em>تستحقها</em>';}
 
-  const offerCards = document.querySelectorAll('.offer-card');
-  if(offerCards[0]) {
-    offerCards[0].querySelector('.offer-title').textContent = t('offer1Title');
-    offerCards[0].querySelector('.offer-desc').textContent = t('offer1Desc');
-    offerCards[0].querySelector('.offer-tag').textContent = t('offer1Tag');
-  }
-  if(offerCards[1]) {
-    offerCards[1].querySelector('.offer-title').textContent = t('offer2Title');
-    offerCards[1].querySelector('.offer-desc').textContent = t('offer2Desc');
-    offerCards[1].querySelector('.offer-tag').textContent = t('offer2Tag');
-  }
-  if(offerCards[2]) {
-    offerCards[2].querySelector('.offer-title').textContent = t('offer3Title');
-    offerCards[2].querySelector('.offer-desc').textContent = t('offer3Desc');
-    offerCards[2].querySelector('.offer-tag').textContent = t('offer3Tag');
-  }
+  const offerCards=document.querySelectorAll('.offer-card');
+  if(offerCards[0]){offerCards[0].querySelector('.offer-title').textContent=t('offer1Title');offerCards[0].querySelector('.offer-desc').textContent=t('offer1Desc');offerCards[0].querySelector('.offer-tag').textContent=t('offer1Tag');}
+  if(offerCards[1]){offerCards[1].querySelector('.offer-title').textContent=t('offer2Title');offerCards[1].querySelector('.offer-desc').textContent=t('offer2Desc');offerCards[1].querySelector('.offer-tag').textContent=t('offer2Tag');}
+  if(offerCards[2]){offerCards[2].querySelector('.offer-title').textContent=t('offer3Title');offerCards[2].querySelector('.offer-desc').textContent=t('offer3Desc');offerCards[2].querySelector('.offer-tag').textContent=t('offer3Tag');}
 
-  // Countdown labels
-  const countLabels = document.querySelectorAll('.count-label');
-  if(countLabels[0]) countLabels[0].textContent = t('day');
-  if(countLabels[1]) countLabels[1].textContent = t('hour');
-  if(countLabels[2]) countLabels[2].textContent = t('minute');
-  if(countLabels[3]) countLabels[3].textContent = t('second');
-  document.querySelector('.countdown-title').textContent = t('countdownTitle');
+  const countLabels=document.querySelectorAll('.count-label');
+  if(countLabels[0])countLabels[0].textContent=t('day');
+  if(countLabels[1])countLabels[1].textContent=t('hour');
+  if(countLabels[2])countLabels[2].textContent=t('minute');
+  if(countLabels[3])countLabels[3].textContent=t('second');
+  document.querySelector('.countdown-title').textContent=t('countdownTitle');
 
-  // Story section
-  const storyEyebrow = document.querySelector('#story .section-eyebrow');
-  if(storyEyebrow) storyEyebrow.textContent = t('sectionStory');
-  const storyTitle = document.querySelector('#story .section-title');
-  if(storyTitle) {
-    if(currentLang === 'en') storyTitle.innerHTML = t('sectionStoryTitle1') + ' <em>' + t('sectionStoryTitle2') + '</em>';
-    else storyTitle.innerHTML = 'فلسفة <em>الراقي</em>';
-  }
-  const storySubs = document.querySelectorAll('#story .section-sub');
-  if(storySubs[0]) storySubs[0].textContent = t('storyText1');
-  if(storySubs[1]) storySubs[1].textContent = t('storyText2');
+  const storyEyebrow=document.querySelector('#story .section-eyebrow');
+  if(storyEyebrow)storyEyebrow.textContent=t('sectionStory');
+  const storyTitle=document.querySelector('#story .section-title');
+  if(storyTitle){if(currentLang==='en')storyTitle.innerHTML=t('sectionStoryTitle1')+' <em>'+t('sectionStoryTitle2')+'</em>';else storyTitle.innerHTML='فلسفة <em>الراقي</em>';}
+  const storySubs=document.querySelectorAll('#story .section-sub');
+  if(storySubs[0])storySubs[0].textContent=t('storyText1');
+  if(storySubs[1])storySubs[1].textContent=t('storyText2');
 
-  const stats = document.querySelectorAll('.stat');
-  if(stats[0]) { stats[0].querySelector('.stat-num').textContent = t('stat1Num'); stats[0].querySelector('.stat-label').textContent = t('stat1Label'); }
-  if(stats[1]) { stats[1].querySelector('.stat-num').textContent = t('stat2Num'); stats[1].querySelector('.stat-label').textContent = t('stat2Label'); }
-  if(stats[2]) { stats[2].querySelector('.stat-num').textContent = t('stat3Num'); stats[2].querySelector('.stat-label').textContent = t('stat3Label'); }
+  const stats=document.querySelectorAll('.stat');
+  if(stats[0]){stats[0].querySelector('.stat-num').textContent=t('stat1Num');stats[0].querySelector('.stat-label').textContent=t('stat1Label');}
+  if(stats[1]){stats[1].querySelector('.stat-num').textContent=t('stat2Num');stats[1].querySelector('.stat-label').textContent=t('stat2Label');}
+  if(stats[2]){stats[2].querySelector('.stat-num').textContent=t('stat3Num');stats[2].querySelector('.stat-label').textContent=t('stat3Label');}
 
-  // Quote
-  const quoteP = document.querySelector('.story-quote p');
-  if(quoteP) quoteP.textContent = t('quoteText');
-  const quoteCite = document.querySelector('.story-quote cite');
-  if(quoteCite) quoteCite.textContent = t('quoteCite');
+  const quoteP=document.querySelector('.story-quote p');
+  if(quoteP)quoteP.textContent=t('quoteText');
+  const quoteCite=document.querySelector('.story-quote cite');
+  if(quoteCite)quoteCite.textContent=t('quoteCite');
 
-  // Finder section
-  const finderEyebrow = document.querySelector('#finder .section-eyebrow');
-  if(finderEyebrow) finderEyebrow.textContent = t('sectionFinder');
-  const finderTitle = document.querySelector('#finder .section-title');
-  if(finderTitle) {
-    if(currentLang === 'en') finderTitle.innerHTML = t('sectionFinderTitle1') + ' <em>' + t('sectionFinderTitle2') + '</em>';
-    else finderTitle.innerHTML = 'أي رائحة <em>تُلائمك؟</em>';
-  }
-  const finderSub = document.querySelector('#finder .section-sub');
-  if(finderSub) finderSub.textContent = t('finderSub');
+  const finderEyebrow=document.querySelector('#finder .section-eyebrow');
+  if(finderEyebrow)finderEyebrow.textContent=t('sectionFinder');
+  const finderTitle=document.querySelector('#finder .section-title');
+  if(finderTitle){if(currentLang==='en')finderTitle.innerHTML=t('sectionFinderTitle1')+' <em>'+t('sectionFinderTitle2')+'</em>';else finderTitle.innerHTML='أي رائحة <em>تُلائمك؟</em>';}
+  const finderSub=document.querySelector('#finder .section-sub');
+  if(finderSub)finderSub.textContent=t('finderSub');
 
-  // Cart
-  document.querySelector('.cart-title').textContent = t('cartTitle');
-  const cartEmpty = document.querySelector('.cart-empty');
-  if(cartEmpty) cartEmpty.querySelector('p').textContent = t('cartEmpty');
+  document.querySelector('.cart-title').textContent=t('cartTitle');
+  const cartEmpty=document.querySelector('.cart-empty');
+  if(cartEmpty)cartEmpty.querySelector('p').textContent=t('cartEmpty');
 
-  // Checkout
-  document.querySelector('.checkout-title').textContent = t('checkoutTitle');
+  document.querySelector('.checkout-title').textContent=t('checkoutTitle');
 
-  // Update all co-labels
-  const coLabels = document.querySelectorAll('.co-label');
-  coLabels.forEach((label, idx) => {
-    if(idx === 0) label.textContent = t('coName');
-    if(idx === 1) label.textContent = t('coPhone');
-    if(idx === 2) label.textContent = t('coCity');
-    if(idx === 3) label.textContent = t('coDelivery');
-    if(idx === 4) label.textContent = t('coAddress');
-    if(idx === 5) label.textContent = t('coNotes');
-  });
+  const coLabels=document.querySelectorAll('.co-label');
+  coLabels.forEach((label,idx)=>{if(idx===0)label.textContent=t('coName');if(idx===1)label.textContent=t('coPhone');if(idx===2)label.textContent=t('coCity');if(idx===3)label.textContent=t('coDelivery');if(idx===4)label.textContent=t('coAddress');if(idx===5)label.textContent=t('coNotes');});
 
-  document.getElementById('co-name').placeholder = currentLang === 'en' ? 'John Doe' : 'محمد أحمد';
-  document.getElementById('co-phone').placeholder = currentLang === 'en' ? '0912345678' : '0912345678';
-  document.getElementById('co-city').placeholder = currentLang === 'en' ? 'Khartoum' : 'الخرطوم';
-  document.getElementById('opt-pickup').querySelector('.delivery-opt-label').textContent = t('coPickup');
-  document.getElementById('opt-delivery').querySelector('.delivery-opt-label').textContent = t('coDeliveryOpt');
-  document.querySelector('.delivery-alert-title').textContent = t('deliveryAlertTitle');
-  document.querySelector('.delivery-alert-text').textContent = t('deliveryAlertText');
-  document.querySelector('.location-title').innerHTML = '<span>📍</span> ' + t('locationTitle');
-  document.getElementById('co-address').placeholder = currentLang === 'en' ? 'Neighborhood, Street, House number...' : 'الحي، الشارع، رقم المنزل...';
-  document.getElementById('location-btn-text').textContent = t('locationBtn');
-  document.getElementById('location-map-link').textContent = '🗺 ' + t('locationMap');
-  document.getElementById('co-notes').placeholder = currentLang === 'en' ? 'Any additional order details...' : 'أي تفاصيل إضافية للطلب...';
-  document.getElementById('btn-confirm').textContent = t('btnConfirm');
+  document.getElementById('co-name').placeholder=currentLang==='en'?'John Doe':'محمد أحمد';
+  document.getElementById('co-phone').placeholder=currentLang==='en'?'0912345678':'0912345678';
+  document.getElementById('co-city').placeholder=currentLang==='en'?'Khartoum':'الخرطوم';
+  document.getElementById('opt-pickup').querySelector('.delivery-opt-label').textContent=t('coPickup');
+  document.getElementById('opt-delivery').querySelector('.delivery-opt-label').textContent=t('coDeliveryOpt');
+  document.querySelector('.delivery-alert-title').textContent=t('deliveryAlertTitle');
+  document.querySelector('.delivery-alert-text').textContent=t('deliveryAlertText');
+  document.querySelector('.location-title').innerHTML='<span>📍</span> '+t('locationTitle');
+  document.getElementById('co-address').placeholder=currentLang==='en'?'Neighborhood, Street, House number...':'الحي، الشارع، رقم المنزل...';
+  document.getElementById('location-btn-text').textContent=t('locationBtn');
+  document.getElementById('location-map-link').textContent='🗺 '+t('locationMap');
+  document.getElementById('co-notes').placeholder=currentLang==='en'?'Any additional order details...':'أي تفاصيل إضافية للطلب...';
+  document.getElementById('btn-confirm').textContent=t('btnConfirm');
 
-  // Confirmed
-  document.querySelector('.confirmed-title').textContent = t('confirmedTitle');
-  document.querySelector('.confirmed-sub').textContent = t('confirmedSub');
-  document.querySelector('.btn-share-order span:last-child').textContent = t('btnShare');
+  document.querySelector('.confirmed-title').textContent=t('confirmedTitle');
+  document.querySelector('.confirmed-sub').textContent=t('confirmedSub');
+  document.querySelector('.btn-share-order span:last-child').textContent=t('btnShare');
 
-  // Footer
-  document.querySelector('.footer-brand').textContent = t('footerBrand');
-  document.querySelector('.footer-brand-sub').textContent = t('footerBrandSub');
-  document.querySelector('.footer-desc').textContent = t('footerDesc');
+  document.querySelector('.footer-brand').textContent=t('footerBrand');
+  document.querySelector('.footer-brand-sub').textContent=t('footerBrandSub');
+  document.querySelector('.footer-desc').textContent=t('footerDesc');
 
-  const footerHeadings = document.querySelectorAll('.footer-heading');
-  if(footerHeadings[0]) footerHeadings[0].textContent = t('footerSections');
-  if(footerHeadings[1]) footerHeadings[1].textContent = t('footerServices');
-  if(footerHeadings[2]) footerHeadings[2].textContent = t('footerHelp');
+  const footerHeadings=document.querySelectorAll('.footer-heading');
+  if(footerHeadings[0])footerHeadings[0].textContent=t('footerSections');
+  if(footerHeadings[1])footerHeadings[1].textContent=t('footerServices');
+  if(footerHeadings[2])footerHeadings[2].textContent=t('footerHelp');
 
-  const footerLinksAll = document.querySelectorAll('.footer-links');
-  if(footerLinksAll[0]) {
-    const links0 = footerLinksAll[0].querySelectorAll('a');
-    if(links0[0]) links0[0].textContent = t('footerWomen');
-    if(links0[1]) links0[1].textContent = t('footerMen');
-    if(links0[2]) links0[2].textContent = t('footerUnisex');
-  }
-  if(footerLinksAll[1]) {
-    const links1 = footerLinksAll[1].querySelectorAll('a');
-    if(links1[0]) links1[0].textContent = t('footerCustom');
-    if(links1[1]) links1[1].textContent = t('footerCorporate');
-    if(links1[2]) links1[2].textContent = t('footerBridal');
-  }
-  if(footerLinksAll[2]) {
-    const links2 = footerLinksAll[2].querySelectorAll('a');
-    if(links2[0]) links2[0].textContent = t('footerTrack');
-    if(links2[1]) links2[1].textContent = t('footerReturn');
-    if(links2[2]) links2[2].textContent = t('footerContact');
-  }
+  const footerLinksAll=document.querySelectorAll('.footer-links');
+  if(footerLinksAll[0]){const links0=footerLinksAll[0].querySelectorAll('a');if(links0[0])links0[0].textContent=t('footerWomen');if(links0[1])links0[1].textContent=t('footerMen');if(links0[2])links0[2].textContent=t('footerUnisex');}
+  if(footerLinksAll[1]){const links1=footerLinksAll[1].querySelectorAll('a');if(links1[0])links1[0].textContent=t('footerCustom');if(links1[1])links1[1].textContent=t('footerCorporate');if(links1[2])links1[2].textContent=t('footerBridal');}
+  if(footerLinksAll[2]){const links2=footerLinksAll[2].querySelectorAll('a');if(links2[0])links2[0].textContent=t('footerTrack');if(links2[1])links2[1].textContent=t('footerReturn');if(links2[2])links2[2].textContent=t('footerContact');}
 
-  const footerBottom = document.querySelector('.footer-bottom');
-  if(footerBottom) {
-    const spans = footerBottom.querySelectorAll('span');
-    if(spans[0]) spans[0].textContent = t('footerCopy');
-    if(spans[1]) spans[1].textContent = t('footerMade');
-  }
+  const footerBottom=document.querySelector('.footer-bottom');
+  if(footerBottom){const spans=footerBottom.querySelectorAll('span');if(spans[0])spans[0].textContent=t('footerCopy');if(spans[1])spans[1].textContent=t('footerMade');}
 
-  // Notify bar
-  document.querySelector('.notify-bar').innerHTML = '<span>✦</span> ' + t('notifyBar') + ' <span>✦</span>';
+  document.querySelector('.notify-bar').innerHTML='<span>✦</span> '+t('notifyBar')+' <span>✦</span>';
 
-  // Modal
-  document.querySelector('.modal-notes-title').textContent = t('modalNotes');
-  document.getElementById('modalAddBtn').textContent = t('modalAdd');
+  document.querySelector('.modal-notes-title').textContent=t('modalNotes');
+  document.getElementById('modalAddBtn').textContent=t('modalAdd');
 
-  // Finder data update
-  finderData[0].q = t('finderQ1');
-  finderData[0].opts = t('finderQ1Opts');
-  finderData[1].q = t('finderQ2');
-  finderData[1].opts = t('finderQ2Opts');
-  finderData[2].q = t('finderQ3');
-  finderData[2].opts = t('finderQ3Opts');
-  finderMap[0].name = t('finderR0'); finderMap[0].desc = t('finderR0Desc');
-  finderMap[1].name = t('finderR1'); finderMap[1].desc = t('finderR1Desc');
-  finderMap[2].name = t('finderR2'); finderMap[2].desc = t('finderR2Desc');
-  finderMap[3].name = t('finderR3'); finderMap[3].desc = t('finderR3Desc');
+  finderData[0].q=t('finderQ1');finderData[0].opts=t('finderQ1Opts');
+  finderData[1].q=t('finderQ2');finderData[1].opts=t('finderQ2Opts');
+  finderData[2].q=t('finderQ3');finderData[2].opts=t('finderQ3Opts');
+  finderMap[0].name=t('finderR0');finderMap[0].desc=t('finderR0Desc');
+  finderMap[1].name=t('finderR1');finderMap[1].desc=t('finderR1Desc');
+  finderMap[2].name=t('finderR2');finderMap[2].desc=t('finderR2Desc');
+  finderMap[3].name=t('finderR3');finderMap[3].desc=t('finderR3Desc');
 
-  // Re-render finder if active
-  if(finderStep < finderData.length) renderFinder();
-  else {
-    document.getElementById('finderName').textContent = finderMap[((finderChoices[1]||0)+(finderChoices[2]?finderChoices[2]*2:0))%4].name;
-    document.getElementById('finderDesc').textContent = finderMap[((finderChoices[1]||0)+(finderChoices[2]?finderChoices[2]*2:0))%4].desc;
-    document.getElementById('finderAddBtn').textContent = t('finderAddBtn');
-    const resetBtn = document.querySelector('#finderResult .btn-outline');
-    if(resetBtn) resetBtn.textContent = t('finderResetBtn');
-    document.getElementById('finderResult').querySelector('.section-eyebrow').textContent = t('finderResultTitle');
+  if(finderStep<finderData.length)renderFinder();
+  else{
+    document.getElementById('finderName').textContent=finderMap[((finderChoices[1]||0)+(finderChoices[2]?finderChoices[2]*2:0))%4].name;
+    document.getElementById('finderDesc').textContent=finderMap[((finderChoices[1]||0)+(finderChoices[2]?finderChoices[2]*2:0))%4].desc;
+    document.getElementById('finderAddBtn').textContent=t('finderAddBtn');
+    const resetBtn=document.querySelector('#finderResult .btn-outline');
+    if(resetBtn)resetBtn.textContent=t('finderResetBtn');
+    document.getElementById('finderResult').querySelector('.section-eyebrow').textContent=t('finderResultTitle');
   }
 }
 
