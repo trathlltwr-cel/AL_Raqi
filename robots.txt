@@ -1,0 +1,34 @@
+# ══════════════════════════════════════════════════
+# ROBOTS.TXT FOR AL-RAQI PERFUMES & E-COMMERCE
+# Optimized for Google, Bing, and Social Media Crawlers
+# ══════════════════════════════════════════════════
+
+User-agent: *
+Allow: /
+Allow: /index.html
+Allow: /assets/
+Allow: /css/
+Allow: /js/
+Allow: /images/
+
+# منع أرشفة الصفحات الحساسة الخاصة بالدفع والطلبات ولقطات سلة المشتريات
+Disallow: /checkout/
+Disallow: /cart/
+Disallow: /admin/
+Disallow: /api/
+Disallow: /config/
+Disallow: /order-confirmed/
+
+# تحسين أرشفة الصور للعطور والمنتجات في بحث قوقل للصور
+User-agent: Googlebot-Image
+Allow: /
+Allow: /images/
+
+# السماح للروبوتات الخاصة بفيسبوك وواتساب وأدوات التواصل بأرشفة وتوليد الصور المصغرة (OpenGraph)
+User-agent: facebookexternalhit
+Allow: /
+User-agent: Twitterbot
+Allow: /
+
+# رابط خريطة الموقع (استبدل domain.com برابط موقعك الفعلي عند حجز الدومين)
+Sitemap: https://www.domain.com/sitemap.xml
